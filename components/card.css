@@ -1,0 +1,48 @@
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+.card {
+    position: relative;
+    border-width: none;
+    z-index: 2;
+}
+ .card *:not(button, .pop) {
+    position: relative;
+    z-index: 2;
+    background-color: rgb(31, 41, 55);
+    color: #fff;
+ }
+.card::after, .card::before {
+    content: '';
+    position: absolute;
+    inset: -0.2rem;
+    background: conic-gradient(from var(--gradient-angle), yellow, black, black, yellow);
+    border-radius: inherit;
+    z-index: -1;
+    animation-name: rotation;
+    animation-iteration-count: infinite;
+    animation-duration: 20s;
+    animation-timing-function: linear;
+}
+.card::after {
+    filter: blur(3.5rem);
+}
+.freePlan::after, .freePlan::before {
+    background: conic-gradient(from var(--gradient-angle), #007BFF, black, black, #007BFF);
+}
+.proPlan::after,
+.proPlan::before {
+    background: conic-gradient(from var(--gradient-angle), #FFD700, black, black, #FFD700);
+}
+.teamsPlan::after,
+.teamsPlan::before {
+    background: conic-gradient(from var(--gradient-angle), #20C997, black, black, #20C997);
+}
+
+@keyframes rotation {
+    0% { --gradient-angle: 0deg; }
+    100% { --gradient-angle: 360deg; }
+    
+}
