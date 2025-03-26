@@ -6,6 +6,7 @@ import { ChevronRight, Clock, Download, Globe, Palette } from "lucide-react";
 import { HeroAnimation } from "@/components/hero-animation";
 import { PricingCard } from "@/components/pricing-card";
 import { FeatureShowcase } from "@/components/feature-showcase";
+import "./home.css";
 
 export default function Home() {
   return (
@@ -120,7 +121,7 @@ export default function Home() {
         </section>
 
         {/* Trusted By Section */}
-        <section className="w-full py-12 md:py-16 border-y border-yellow-500/20 bg-black">
+        <section className="w-full py-12 md:py-16 border-y border-yellow-500/20 bg-black trustSect">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="text-sm font-medium text-gray-400 uppercase tracking-wide">
@@ -209,7 +210,8 @@ export default function Home() {
                   Pricing
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
-                  Choose the plan that's right for you
+                  Choose the <span className="yel">plan</span> that's right for
+                  you
                 </h2>
                 <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Start for free, upgrade when you need more features

@@ -1,0 +1,40 @@
+.yel {
+    color: rgb(234, 179, 8);
+}
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+/* .trustSect {
+    position: relative;
+    z-index: 2;
+    background: black;
+}
+
+.trustSect::after,
+.trustSect::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: conic-gradient(from var(--gradient-angle), yellow, black, black, yellow);
+    animation-name: rotation;
+    animation-iteration-count: infinite;
+    animation-duration: 20s;
+    animation-timing-function: linear;
+
+}
+
+.trustSect::after {
+    filter: blur(2.5rem);
+}
+@keyframes rotation {
+    0% {
+        --gradient-angle: 0deg;
+    }
+
+    100% {
+        --gradient-angle: 360deg;
+    }
+} */

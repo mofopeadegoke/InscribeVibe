@@ -17,28 +17,46 @@
 .card::after, .card::before {
     content: '';
     position: absolute;
-    inset: -0.2rem;
-    background: conic-gradient(from var(--gradient-angle), yellow, black, black, yellow);
-    border-radius: inherit;
+    inset: -0.1rem;
     z-index: -1;
+    /* background: conic-gradient(from var(--gradient-angle), yellow, black, black, yellow);
     animation-name: rotation;
     animation-iteration-count: infinite;
     animation-duration: 20s;
-    animation-timing-function: linear;
+    animation-timing-function: linear; */
+    
 }
 .card::after {
-    filter: blur(3.5rem);
+    filter: blur(0.5rem);
 }
 .freePlan::after, .freePlan::before {
-    background: conic-gradient(from var(--gradient-angle), #007BFF, black, black, #007BFF);
+    /* background: conic-gradient(from var(--gradient-angle), #007BFF, black, black, #007BFF); */
+    background: #007BFF;
+}
+.freePlan button {
+    border-color: #007BFF;
+    color: #007BFF;
+}
+.freePlan button:hover {
+    color: #fff;
+}
+.teamsPlan button {
+    border-color: #20C997;
+    color: #20C997;
+}
+
+.teamsPlan button:hover {
+    color: #fff;
 }
 .proPlan::after,
 .proPlan::before {
-    background: conic-gradient(from var(--gradient-angle), #FFD700, black, black, #FFD700);
+    /* background: conic-gradient(from var(--gradient-angle), #FFD700, black, black, #FFD700); */
+    background: rgb(234, 179, 8);
 }
 .teamsPlan::after,
 .teamsPlan::before {
-    background: conic-gradient(from var(--gradient-angle), #20C997, black, black, #20C997);
+    /* background: conic-gradient(from var(--gradient-angle), #20C997, black, black, #20C997); */
+    background: #20C997;
 }
 
 @keyframes rotation {
