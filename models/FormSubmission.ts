@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-const FormSubmissionSchema = new mongoose.Schema({
-  fname: String,
-  lname: String,
-  email: String,
-  message: String,
+const UserSchema = new mongoose.Schema({
+  fname: {type: String, required: true},
+  lname: {type: String, required: true},
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.FormSubmission ||
-  mongoose.model('FormSubmission', FormSubmissionSchema);
+export default mongoose.models.User ||
+  mongoose.model('FormSubmission', UserSchema);
