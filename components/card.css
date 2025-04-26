@@ -17,7 +17,7 @@
 .card::after, .card::before {
     content: '';
     position: absolute;
-    inset: -0.1rem;
+    inset: -0.05rem;
     z-index: -1;
     background: conic-gradient(from var(--gradient-angle), yellow, black, black, yellow);
     animation-name: rotation;
@@ -30,19 +30,19 @@
     filter: blur(0.5rem);
 }
 .freePlan::after, .freePlan::before {
-    background: conic-gradient(from var(--gradient-angle), #007BFF, black, black, #007BFF);
+    background: conic-gradient(from var(--gradient-angle), #FFEA70, black, black, #FFEA70);
     /* background: #007BFF; */
 }
 .freePlan button {
-    border-color: #007BFF;
-    color: #007BFF;
+    border-color: #FFEA70;
+    color: #FFEA70;
 }
 .freePlan button:hover {
     color: #fff;
 }
 .teamsPlan button {
-    border-color: #20C997;
-    color: #20C997;
+    border-color: #CCAC00;
+    color: #CCAC00;
 }
 
 .teamsPlan button:hover {
@@ -55,7 +55,7 @@
 }
 .teamsPlan::after,
 .teamsPlan::before {
-    background: conic-gradient(from var(--gradient-angle), #20C997, black, black, #20C997);
+    background: conic-gradient(from var(--gradient-angle), #CCAC00, black, black, #CCAC00);
     /* background: #20C997; */
 }
 
