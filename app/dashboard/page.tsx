@@ -1,11 +1,8 @@
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { requireAuth } from "@/lib/auth"
-import { handleSignOut } from "@/app/actions"
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import LogoutButton from "@/components/logout-button";
 
 export default async function DashboardPage() {
-  const user = await requireAuth()
-
   return (
     <div className="min-h-screen bg-black">
       <header className="border-b border-yellow-500/20 bg-black sticky top-0 z-50">
@@ -37,16 +34,8 @@ export default async function DashboardPage() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-gray-400">Welcome, {user.firstName}</span>
-            <form action={handleSignOut}>
-              <Button
-                type="submit"
-                variant="outline"
-                className="border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10"
-              >
-                Sign Out
-              </Button>
-            </form>
+            <span className="text-sm font-medium text-gray-400">Welcome</span>
+            <LogoutButton />
           </div>
         </div>
       </header>
@@ -66,18 +55,39 @@ export default async function DashboardPage() {
         <div className="grid gap-6 md:grid-cols-3 lg:gap-8">
           <div className="bg-gray-800 border border-yellow-500/20 rounded-lg p-6 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mb-4">
-              <svg className="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              <svg
+                className="h-6 w-6 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Create New Note</h3>
-            <p className="text-gray-400 mb-4">Start a new note to capture your ideas</p>
-            <Button className="bg-yellow-500 text-black hover:bg-yellow-400 mt-auto">New Note</Button>
+            <h3 className="text-xl font-bold text-white mb-2">
+              Create New Note
+            </h3>
+            <p className="text-gray-400 mb-4">
+              Start a new note to capture your ideas
+            </p>
+            <Button className="bg-yellow-500 text-black hover:bg-yellow-400 mt-auto">
+              New Note
+            </Button>
           </div>
 
           <div className="bg-gray-800 border border-yellow-500/20 rounded-lg p-6 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mb-4">
-              <svg className="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-6 w-6 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -87,15 +97,25 @@ export default async function DashboardPage() {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-white mb-2">My Notebooks</h3>
-            <p className="text-gray-400 mb-4">Organize your notes into different notebooks</p>
-            <Button variant="outline" className="border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10 mt-auto">
+            <p className="text-gray-400 mb-4">
+              Organize your notes into different notebooks
+            </p>
+            <Button
+              variant="outline"
+              className="border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10 mt-auto"
+            >
               View Notebooks
             </Button>
           </div>
 
           <div className="bg-gray-800 border border-yellow-500/20 rounded-lg p-6 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mb-4">
-              <svg className="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-6 w-6 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -104,9 +124,16 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Recent Activity</h3>
-            <p className="text-gray-400 mb-4">View your recent notes and edits</p>
-            <Button variant="outline" className="border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10 mt-auto">
+            <h3 className="text-xl font-bold text-white mb-2">
+              Recent Activity
+            </h3>
+            <p className="text-gray-400 mb-4">
+              View your recent notes and edits
+            </p>
+            <Button
+              variant="outline"
+              className="border-yellow-500/20 text-yellow-500 hover:bg-yellow-500/10 mt-auto"
+            >
               View Activity
             </Button>
           </div>
@@ -135,6 +162,5 @@ export default async function DashboardPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-

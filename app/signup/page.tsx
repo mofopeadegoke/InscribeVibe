@@ -1,40 +1,57 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Separator } from "@/components/ui/separator"
-import { handleSignUp } from "@/app/actions"
-import { useRouter } from "next/navigation"
+import Link from "next/link";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { Loader2 } from "lucide-react";
+import { useAuth } from "@/providers/AuthContext";
 
 export default function SignupPage() {
-  const router = useRouter()
-  const [formData, setFormData] = useState({ fname: "", lname: "", email: "", message: "" });
-  const [status, setStatus] = useState("");
+  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const { login } = useAuth();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("Submitting...");
 
-    const response = await fetch("/api/submit-form", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      setIsSubmitting(true);
 
-    const result = await response.json();
-    if (result.success) {
-      setStatus("Form submitted successfully!");
-      setFormData({ lname: "", fname: "", email: "", message: "" });
-    } else {
-      setStatus("Submission failed. Try again.");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const result = await response.json();
+      if (result.success) {
+        login(result.accessToken);
+        setError(null);
+        setFormData({ lastName: "", firstName: "", email: "", password: "" });
+      } else {
+        setError(result.message || "Submission failed. Try again.");
+      }
+    } catch (err) {
+      console.error("Error in handleSubmit:", err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -47,12 +64,19 @@ export default function SignupPage() {
               <div className="w-8 h-8 rounded-lg bg-yellow-500 flex items-center justify-center text-black font-bold">
                 I
               </div>
-              <span className="text-xl font-bold text-yellow-500">Inscribe</span>
+              <span className="text-xl font-bold text-yellow-500">
+                Inscribe
+              </span>
             </Link>
-            <h2 className="mt-6 text-2xl font-bold tracking-tight text-white">Create your account</h2>
+            <h2 className="mt-6 text-2xl font-bold tracking-tight text-white">
+              Create your account
+            </h2>
             <p className="mt-2 text-sm text-gray-400">
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-yellow-500 hover:text-yellow-400">
+              <Link
+                href="/login"
+                className="font-medium text-yellow-500 hover:text-yellow-400"
+              >
                 Sign in
               </Link>
             </p>
@@ -60,49 +84,64 @@ export default function SignupPage() {
 
           <div className="mt-8">
             <div className="mt-6">
-              <form action={handleSubmit} className="space-y-6">
-                {/* {error && <div className="bg-red-500/10 text-red-500 text-sm p-3 rounded-md">{error}</div>} */}
+              <form method="POST" className="space-y-6" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="bg-red-500/10 text-red-500 text-sm p-3 rounded-md">
+                    {error}
+                  </div>
+                )}
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label htmlFor="first-name" className="block text-sm font-medium text-gray-300">
-                      First name
+                    <Label
+                      htmlFor="first-name"
+                      className="block text-sm font-medium text-gray-300"
+                    >
+                      First Name
                     </Label>
                     <div className="mt-1">
                       <Input
                         id="first-name"
-                        name="first-name"
+                        name="firstName"
                         type="text"
                         autoComplete="given-name"
                         required
                         className="block w-full rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
                         onChange={handleChange}
-                        value={formData.fname}
+                        value={formData.firstName}
+                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="last-name" className="block text-sm font-medium text-gray-300">
-                      Last name
+                    <Label
+                      htmlFor="last-name"
+                      className="block text-sm font-medium text-gray-300"
+                    >
+                      Last Name
                     </Label>
                     <div className="mt-1">
                       <Input
                         id="last-name"
-                        name="last-name"
+                        name="lastName"
                         type="text"
                         autoComplete="family-name"
                         required
                         className="block w-full rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
                         onChange={handleChange}
-                        value={formData.lname}
+                        value={formData.lastName}
+                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                    Email address
+                  <Label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-300"
+                  >
+                    Email Address
                   </Label>
                   <div className="mt-1">
                     <Input
@@ -114,12 +153,16 @@ export default function SignupPage() {
                       className="block w-full rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
                       onChange={handleChange}
                       value={formData.email}
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="password" className="block text-sm font-medium text-gray-300">
+                  <Label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-300"
+                  >
                     Password
                   </Label>
                   <div className="mt-1">
@@ -130,6 +173,9 @@ export default function SignupPage() {
                       autoComplete="new-password"
                       required
                       className="block w-full rounded-md border-gray-700 bg-gray-800 text-white shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
+                      onChange={handleChange}
+                      value={formData.password}
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -141,13 +187,22 @@ export default function SignupPage() {
                     required
                     className="h-4 w-4 text-yellow-500 focus:ring-yellow-500"
                   />
-                  <Label htmlFor="terms" className="ml-2 block text-sm text-gray-300">
+                  <Label
+                    htmlFor="terms"
+                    className="ml-2 block text-sm text-gray-300"
+                  >
                     I agree to the{" "}
-                    <Link href="#" className="font-medium text-yellow-500 hover:text-yellow-400">
+                    <Link
+                      href="#"
+                      className="font-medium text-yellow-500 hover:text-yellow-400"
+                    >
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="#" className="font-medium text-yellow-500 hover:text-yellow-400">
+                    <Link
+                      href="#"
+                      className="font-medium text-yellow-500 hover:text-yellow-400"
+                    >
                       Privacy Policy
                     </Link>
                   </Label>
@@ -156,10 +211,17 @@ export default function SignupPage() {
                 <div>
                   <Button
                     type="submit"
-                    disabled={isPending}
+                    disabled={isSubmitting}
                     className="flex w-full justify-center rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
                   >
-                    {isPending ? "Creating account..." : "Create account"}
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Creating account...
+                      </>
+                    ) : (
+                      "Create account"
+                    )}
                   </Button>
                 </div>
               </form>
@@ -171,7 +233,9 @@ export default function SignupPage() {
                   <Separator className="w-full border-t border-gray-700" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="bg-black px-2 text-gray-400">Or continue with</span>
+                  <span className="bg-black px-2 text-gray-400">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
@@ -206,7 +270,10 @@ export default function SignupPage() {
         <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
           <div className="max-w-md p-8 text-black">
             <h2 className="text-2xl font-bold mb-4">Join Inscribe today</h2>
-            <p className="mb-6">Start capturing ideas anywhere on the web with our powerful note-taking tools.</p>
+            <p className="mb-6">
+              Start capturing ideas anywhere on the web with our powerful
+              note-taking tools.
+            </p>
             <div className="bg-black/10 p-6 rounded-lg backdrop-blur-sm">
               <div className="w-full h-48 bg-black/20 rounded-lg mb-4"></div>
               <div className="space-y-2">
@@ -218,5 +285,5 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
